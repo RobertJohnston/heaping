@@ -19,7 +19,6 @@ View(df)
 
 df$height <- round(df$height, 1)
 df$weight <- round(df$weight, 1)
-df$agemons <- round(df$agemons, 1)
 
 # Display Height 
 ggplot(df, aes(x = height)) +
@@ -37,13 +36,20 @@ ggplot(df, aes(x = weight)) +
        y = "Count") +
   theme_minimal()
 
-# Display Age in months (1 digit)  
+
+# Analysis of age in months does not work well when agemons has too many 
+# digits past the decimal point
+# Try to analyse agemons as whole number
+
+# Display Age in months (complete month)  
+df$agemons <- round(df$agemons, 0)
 ggplot(df, aes(x = agemons)) +
   geom_bar() +
   labs(title = "Age Distribution (Counts)",
        x = "Age in Months",
        y = "Count") +
   theme_minimal()
+
 
 # GLM Poisson and Negative Binomial do not fit well 
 # Polynomial deg 3 does not fit well 
@@ -133,8 +139,9 @@ ggplot(df_pred, aes(x = agemons, y = n)) +
   labs(title = "GAM Fit (Poisson, Nonlinear Smoothing)",
        x = "Age in months",
        y = "Count") +
+  scale_y_continuous(limits = c(0, NA)) +  # Y-axis starts at 0
   theme_minimal()
 
 r2_gam <- summary(model_gam)$dev.expl
 print(paste("Pseudo R-squared (Deviance explained):", round(r2_gam, 3)))
-# Here the fit is good, but R2 is very low. This analysis does not work well. 
+# Here the fit is good, but R2 is low. 
