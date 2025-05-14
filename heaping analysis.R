@@ -13,7 +13,10 @@ library(openxlsx)
 library(ggplot2)
 library(mgcv)
 
-df <- read_excel("C:/Users/rojohnston/Downloads/png2009_hgt_wgt.xlsx")
+# df <- read_excel("C:/Users/rojohnston/Downloads/png2009_hgt_wgt.xlsx")
+
+workdir <- "C:/Users/rojohnston/UNICEF/Data and Analytics Nutrition - Analysis Space/Child Anthropometry/1- Anthropometry Analysis Script/Prepped Country Data Files/Stata/"
+df <- read_dta(file.path(workdir, "Burkina_Faso-2010-SMART-ANT.dta"))
 
 View(df)
 
@@ -94,7 +97,7 @@ df_pred <- df_clean %>%
 
 ggplot(df_pred, aes(x = height, y = n)) +
   geom_point(size = 1) +
-  geom_line(aes(y = predicted), color = "darkred", size = 1) +
+  geom_line(aes(y = predicted), color = "red", size = 1) +
   labs(title = "GAM Fit (Poisson, Nonlinear Smoothing)",
        x = "Height",
        y = "Count") +
