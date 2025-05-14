@@ -54,6 +54,9 @@ ggplot(df, aes(x = agemons)) +
 # GLM Poisson and Negative Binomial do not fit well 
 # Polynomial deg 3 does not fit well 
 
+# Height
+df_count <- df %>% count(height)
+
 # Fit a polynomial regression (degree 3)
 df_clean <- df_count %>%
   filter(!is.na(height) & !is.na(n))
@@ -145,3 +148,6 @@ ggplot(df_pred, aes(x = agemons, y = n)) +
 r2_gam <- summary(model_gam)$dev.expl
 print(paste("Pseudo R-squared (Deviance explained):", round(r2_gam, 3)))
 # Here the fit is good, but R2 is low. 
+
+
+
